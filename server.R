@@ -108,7 +108,7 @@ shinyServer(function(input, output,session) {
   #---------------------------------------------  
     dtm = reactive({
       
-      stp_word1 = stopwords('english')
+      stp_word1 = stopwords('en')
       stp_word2 = readLines("data/stopwords.txt")
       comn  = unique(c(stp_word1, stp_word2))
       stp_word = unique(c(gsub("'","",comn),comn))
