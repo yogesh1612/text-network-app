@@ -38,8 +38,9 @@ shinyUI(pageWithSidebar(
     
     tabsetPanel(type = "tabs",
                 #
-                tabPanel("Doc-Doc Network",plotOutput("graph1", height = 800, width = 840)),
-                tabPanel("Term-Term Network",plotOutput("graph2", height = 800, width = 840)),
+                # tabPanel("Doc-Doc Network",plotOutput("graph1", height = 800, width = 840)),
+                # tabPanel("Term-Term Network",plotOutput("graph2", height = 800, width = 840)),
+                
                 tabPanel("Doc-Doc COG",plotOutput("graph3", height = 800, width = 840)),
                 tabPanel("Term-Term COG",plotOutput("graph4", height = 800, width = 840))
                 # tabPanel("Network Centralities",dataTableOutput("centdata"))
