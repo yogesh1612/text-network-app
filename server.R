@@ -199,18 +199,20 @@ shinyServer(function(input, output,session) {
       return(dtm2)
     })
     #-------------------------------------------
-  output$graph1 <- renderPlot({
-    if (is.null(input$file)) { return(NULL) }
-    else{
-  plot.one.mode(dtm1(), "Doc-Doc", input$cutoff,input$cex,input$cex2)
-    }
-  })
-  output$graph2 <- renderPlot({
-    if (is.null(input$file)) { return(NULL) }
-    else{
-  plot.one.mode(t(dtm2()), "Term-Term",input$cutoff,input$cex,input$cex2)
-    }
-  })
+  # output$graph1 <- renderPlot({
+   # if (is.null(input$file)) { return(NULL) }
+   # else{
+  # plot.one.mode(dtm1(), "Doc-Doc", input$cutoff,input$cex,input$cex2)
+  #  }
+  # })
+  
+ # output$graph2 <- renderPlot({
+  #  if (is.null(input$file)) { return(NULL) }
+  #  else{
+ # plot.one.mode(t(dtm2()), "Term-Term",input$cutoff,input$cex,input$cex2)
+ #   }
+ # })
+  
   output$graph3 <- renderPlot({
     if (is.null(input$file)) { return(NULL) }
     else{
