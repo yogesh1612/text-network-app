@@ -219,9 +219,38 @@ shinyServer(function(input, output,session) {
   distill.cog(dtm(), input$nodes, input$connection, "Doc-Doc",input$cex,input$cex2)
     }
   })
+  
   output$graph4 <- renderPlot({     if (is.null(input$file)) { return(NULL) }
     else{
   distill.cog(t(dtm()),input$nodes, input$connection, "Term-Term",input$cex,input$cex2)
+    }
+  })
+  
+  output$graph5 <- renderPlot({     if (is.null(input$file)) { return(NULL) }
+    else{
+      require(igraph)
+      
+      distill.cog(dtm(), input$nodes, input$connection, "Bipartite" ,input$cex,input$cex2) # select Loyal_Brands_DTM.csv file
+      #data[1:8,1:8]
+      
+      rownames(data) = data[,1]  # Assign row names
+      
+      co2015 = data[2:ncol(data)] # # define network data
+      
+      graph1 = graph.incidence(co2015, mode=c("all") ) # create two mode network object
+      V(graph1)   # Print Vertices. Based on vertices order change the color scheme in next line of code
+      V(graph1)$color[1:200] = rgb(1,0,0,.5)   # Color scheme for fist mode of vertices
+      V(graph1)[201:210]
+      V(graph1)$color[201:282] = rgb(0,1,0,.5) # Color Scheme for second mode of vertices
+      V(graph1)$label = V(graph1)$name     # Label vertices
+      V(graph1)$label.color = rgb(0.4,0.3,.5,.5)
+      V(graph1)$label.cex = .8
+      V(graph1)$size = 6
+      V(graph1)$frame.color = NA
+      E(graph1)$color = rgb(.5,.5,.5,.5)
+      
+      plot(graph1, layout=layout.fruchterman.reingold)
+      
     }
   })
     
