@@ -239,8 +239,13 @@ shinyServer(function(input, output,session) {
       data =  as.data.frame(dtm())# select Loyal_Brands_DTM.csv file
       rownames(data) = namesList  # Assign row names
       data = as.data.frame(unique(data))
-      co2015 = data[2:ncol(data)] # # define network data
+      co2015 = data # # define network data
       
+      # remove columns with sum less than 5
+      co2015 = co2015[,colSums(co2015)>5]
+      co2015 = co2015[rowSums(co2015)>0,]
+      
+      print(dim(co2015))
       rownums = nrow(co2015); colnums = ncol(co2015)
       graph1 = graph.incidence(co2015, mode=c("all") ) # create two mode network object
       V(graph1)   # Print Vertices. Based on vertices order change the color scheme in next line of code
@@ -249,7 +254,7 @@ shinyServer(function(input, output,session) {
       V(graph1)$label = V(graph1)$name     # made some crap changes
       V(graph1)$label.color = rgb(0.4,0.3,.5,.5)
       V(graph1)$label.cex = .8
-      V(graph1)$size = 6
+      V(graph1)$size = 10
       V(graph1)$frame.color = NA
       E(graph1)$color = rgb(.5,.5,.5,.5)
       
