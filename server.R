@@ -230,8 +230,14 @@ shinyServer(function(input, output,session) {
     else{
       require(igraph)
       
+      namesList = as.character(read.csv(input$file$datapath)[,1])
+      l1 = duplicated(namesList)
+      l2 = seq(1:sum(l1))
+      namesList_new = paste0(namesList[l1],l2)
+      namesList[l1] = namesList_new
+      
       data =  as.data.frame(dtm())# select Loyal_Brands_DTM.csv file
-      rownames(data) = as.data.frame(read.csv(input$file$datapath))[,1]  # Assign row names
+      rownames(data) = namesList  # Assign row names
       data = as.data.frame(unique(data))
       co2015 = data[2:ncol(data)] # # define network data
       
