@@ -7,9 +7,10 @@ library("igraph")
 library("tm")
 #library("foreign")
 
-shinyUI(pageWithSidebar(
+shinyUI(fluidPage(
   # Header:
-  headerPanel("Text Network App"),
+  #headerPanel("Text Network App"),
+  titlePanel(title=div(img(src="logo.png",align='right'),"Text Network App")),
   # Input in sidepanel:
   sidebarPanel(
     
