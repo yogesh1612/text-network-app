@@ -220,19 +220,20 @@ shinyServer(function(input, output,session) {
     }
   })
   
-  output$graph4 <- renderPlot({     if (is.null(input$file)) { return(NULL) }
+  output$graph4 <- renderPlot({ if (is.null(input$file)) { return(NULL) }
     else{
   distill.cog(t(dtm()),input$nodes, input$connection, "Term-Term",input$cex,input$cex2)
     }
   })
   
-  output$graph5 <- renderPlot({     if (is.null(input$file)) { return(NULL) }
+  
+  
+  bi_graph_df <- reactive({ if (is.null(input$file)) { return(NULL) }
     else{
-      require(igraph)
-      
       namesList = as.character(read.csv(input$file$datapath)[,1])
       l1 = duplicated(namesList)
       l2 = seq(1:sum(l1))
+      print(l2)
       namesList_new = paste0(namesList[l1],l2)
       namesList[l1] = namesList_new
       
@@ -240,11 +241,26 @@ shinyServer(function(input, output,session) {
       rownames(data) = namesList  # Assign row names
       data = as.data.frame(unique(data))
       co2015 = data # # define network data
-      
+      co2015 <- co2015[1:input$npoint,]
+      return(co2015)
+    }
+    })
+
+  output$interactive_slider <- renderUI({if (is.null(input$file)) { return(NULL) }
+                              else{
+                            sliderInput("cutoff", "Filter all brands selected by atleast following no of users", 
+                                        min = 1,
+                                        max = max(colSums(bi_graph_df()))-2,
+                                        value = floor(max(colSums(bi_graph_df()))/2),
+                                        step = 1)}})
+  
+  output$graph5 <- renderPlot({ if (is.null(input$file)) { return(NULL) }
+    else{
+      require(igraph)
+      co2015 <- bi_graph_df()
       # remove columns with sum less than 5
-      co2015 = co2015[,colSums(co2015)>5]
-      co2015 = co2015[rowSums(co2015)>0,]
-      
+      co2015 = co2015[,colSums(co2015)>input$cutoff]
+      co2015 = co2015[sum(co2015)>0,]
       print(dim(co2015))
       rownums = nrow(co2015); colnums = ncol(co2015)
       graph1 = graph.incidence(co2015, mode=c("all") ) # create two mode network object

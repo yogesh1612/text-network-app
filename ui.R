@@ -14,8 +14,8 @@ shinyUI(fluidPage(
   # Input in sidepanel:
   sidebarPanel(
     
-    h5(p("Data Input")),
-    fileInput("file", "Upload Data)"),
+   # h5(p("Data Input")),
+    fileInput("file", "Upload Data"),
     #fileInput("file1", "Upload Demographics data (csv file with header))"),
     # selectInput("mode","Mode of Graph",c("directed", "undirected","max", "min", "upper",
     #                                      "lower", "plus"),"undirected"),
@@ -23,8 +23,9 @@ shinyUI(fluidPage(
     # sliderInput("cex", "Data point labels font size", min = 0.1,  max = 3, value = 1,round = FALSE),
     # sliderInput("cex2", "Vertex Size", min = 0.1,  max = 20, value = 5,round = FALSE),
     
-    numericInput("npoint", "Number of max Nodes in graph", 50),
-    sliderInput("cutoff", "Threshold for connection in graph", 0,1,.95),
+    numericInput("npoint", "Number of max users in graph", 50),
+    uiOutput("interactive_slider"),
+    #sliderInput("cutoff", " Minimum number of times brand is selected", min = 1,max = 50,value = 5,step = 1),
     sliderInput("cex", "Data point labels font size", min = 0.1,  max = 3, value = 1,round = FALSE),
     sliderInput("cex2", "Vertex Size", min = 0.1,  max = 20, value = 5,round = FALSE),
     
