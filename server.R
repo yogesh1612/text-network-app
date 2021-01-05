@@ -248,10 +248,12 @@ shinyServer(function(input, output,session) {
 
   output$interactive_slider <- renderUI({if (is.null(input$file)) { return(NULL) }
                               else{
-                            sliderInput("cutoff", "Filter all brands selected by atleast following no of users", 
+                                
+                                max_slider = sort(colSums(bi_graph_df()),decreasing = TRUE)[[2]]
+                                sliderInput("cutoff", "Filter all brands selected by atleast following no of users", 
                                         min = 1,
-                                        max = max(colSums(bi_graph_df()))-2,
-                                        value = floor(max(colSums(bi_graph_df()))/2),
+                                        max = max_slider-1,
+                                        value = floor(max_slider/2),
                                         step = 1)}})
   
   output$graph5 <- renderPlot({ if (is.null(input$file)) { return(NULL) }
