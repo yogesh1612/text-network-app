@@ -47,8 +47,14 @@ shinyUI(fluidPage(
                 # tabPanel("Term-Term Network",plotOutput("graph2", height = 800, width = 840)),
                 
                 tabPanel("Bipartite graph",plotOutput("graph5", height = 800, width = 840)),
-                tabPanel("Doc-Doc COG",plotOutput("graph3", height = 800, width = 840)),
-                tabPanel("Term-Term COG",plotOutput("graph4", height = 800, width = 840)),
+                tabPanel("Doc-Doc COG",plotOutput("graph3", height = 800, width = 840),
+                         h4("Download Doc-Doc Matrix"),
+                         downloadButton('downloadData2', 'Download Doc-Doc Matrix'),h4("Sample Doc-Doc Matrix"),tableOutput('doc_doc')),
+                tabPanel("Term-Term COG",
+                         plotOutput("graph4", height = 800, width = 840),
+                         h4("Download Term-Term Matrix (Top 200)"),
+                         downloadButton('downloadData3', 'Download Term-Term Matrix'),h4("Sample Term-Term Matrix"),tableOutput('term_term')
+                         ),
                 tabPanel("Download dataset", h4(p("Download DTM for network an")), 
                 downloadButton('downloadData1', 'Download DTM'),h4("Sample DTM"),tableOutput('dtm'))
                 # tabPanel("Network Centralities",dataTableOutput("centdata"))

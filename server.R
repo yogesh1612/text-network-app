@@ -243,16 +243,88 @@ shinyServer(function(input, output,session) {
   }})
   
   
+  doc_doc_mat <- reactive({
+                if (is.null(input$file)) { return(NULL)}
+    else{
+      mat = as.matrix((dtm()))  # input dtm here
+      mat1 = mat %*% t(mat)    # build 1 mode term term matrix
+      
+      a = colSums(mat1)  # collect colsums into a vector obj a
+      b = order(-a)     # nice syntax for ordering vector in decr order  
+      mat2 = mat1[b,b]  # 
+      diag(mat2) =  0
+      return(mat2)
+    }
+    
+  })
   
+  
+  term_term_mat<- reactive({
+                  if (is.null(input$file)) { return(NULL)}
+                  else{
+                    mat = as.matrix((t(dtm())))  # input dtm here
+                    mat1 = mat %*% t(mat)    # build 1 mode term term matrix
+                    
+                    a = colSums(mat1)  # collect colsums into a vector obj a
+                    b = order(-a)     # nice syntax for ordering vector in decr order  
+                    mat2 = mat1[b,b]  # 
+                    mat3 = mat2[1:200,1:200]
+                    diag(mat3) =  0
+                    return(mat3)
+                  }
+  })
+  
+  output$downloadData2 <- downloadHandler(
+    filename = function() { "doc_doc_mat.csv" },
+    content = function(file) {
+      print(2)
+      write.csv(doc_doc_mat(), file, row.names=T)
+      
+      
+    }
+  )
+  
+  
+  output$downloadData3 <- downloadHandler(
+    filename = function() { "term_term_mat.csv" },
+    content = function(file) {
+      print(2)
+      write.csv(term_term_mat(), file, row.names=T)
+      
+      
+    }
+  )
   
   output$dtm <- renderTable({if (is.null(input$file)) { return(NULL)}
     
                       else{
-                       return(head(dtm_to_download(),n = 10))
+                       return(head(dtm_to_download()[,1:10],n = 10))
                   }
                   
                   
                 },rownames = TRUE,digits = 0)
+  
+  
+  output$doc_doc <- renderTable({if (is.null(input$file)) { return(NULL)}
+    
+    else{
+      return(head(doc_doc_mat()[,1:10],n = 10))
+    }
+    
+    
+  },rownames = TRUE,digits = 0)
+  
+  
+  output$term_term <- renderTable({if (is.null(input$file)) { return(NULL)}
+    
+    else{
+      return(head(term_term_mat()[,1:10],n = 10))
+    }
+    
+    
+  },rownames = TRUE,digits = 0)
+  
+  
   
   
   output$downloadData1 <- downloadHandler(
