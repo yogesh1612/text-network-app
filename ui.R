@@ -39,13 +39,18 @@ shinyUI(fluidPage(
   mainPanel( 
     
     tabsetPanel(type = "tabs",
+                
+                
+                
                 #
                 # tabPanel("Doc-Doc Network",plotOutput("graph1", height = 800, width = 840)),
                 # tabPanel("Term-Term Network",plotOutput("graph2", height = 800, width = 840)),
                 
                 tabPanel("Bipartite graph",plotOutput("graph5", height = 800, width = 840)),
                 tabPanel("Doc-Doc COG",plotOutput("graph3", height = 800, width = 840)),
-                tabPanel("Term-Term COG",plotOutput("graph4", height = 800, width = 840))
+                tabPanel("Term-Term COG",plotOutput("graph4", height = 800, width = 840)),
+                tabPanel("Download dataset", h4(p("Download DTM for network an")), 
+                downloadButton('downloadData1', 'Download DTM'),h4("Sample DTM"),tableOutput('dtm'))
                 # tabPanel("Network Centralities",dataTableOutput("centdata"))
     )
   ) 
