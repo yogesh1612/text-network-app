@@ -2,7 +2,9 @@
 try(require("shiny")||install.packages("shiny"))
 try(require("igraph")||install.packages("igraph"))
 try(require("tm")||install.packages("tm"))
+try(require("stringr")||install.packages("stringr"))
 
 library("shiny")
 library("igraph")
 library("tm")
+library("stringr")

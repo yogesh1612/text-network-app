@@ -6,6 +6,7 @@ library("shiny")
 library("igraph")
 library("tm")
 library('visNetwork')
+library('stringr')
 #library("foreign")
 
 shinyUI(fluidPage(
