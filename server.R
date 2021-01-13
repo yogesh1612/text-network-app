@@ -54,6 +54,8 @@ shinyServer(function(input, output,session) {
     plot(graph1e, main = network.name, layout=layout.kamada.kawai)
     # plot(graph1e, main = "layout.fruchterman.reingold", layout=layout.fruchterman.reingold)
   }
+  
+  
   distill.cog <- function(dtm1, s, k1, network.name,cex,cex2){
     # s = 5  # no. of seed nodes
     # k1 = 7   # max no. of connections
@@ -100,6 +102,16 @@ shinyServer(function(input, output,session) {
     if (is.null(input$file)) { return(NULL) }
     else{
       Dataset <- read.csv(input$file$datapath ,header=TRUE, sep = ",", stringsAsFactors = F)
+      Dataset[,1] <- str_to_title(Dataset[,1])
+      Dataset[,1] <- make.names(Dataset[,1], unique=TRUE)
+      Dataset[,1] <- tolower(Dataset[,1])
+      Dataset[,1] <- str_replace_all(Dataset[,1],"\\.","_")
+      rownames(Dataset) <- Dataset[,1]
+      
+      
+      rownames(Dataset) <- make.names(Dataset[,1], unique=TRUE)
+      
+      colnames(Dataset) <- make.names(colnames(Dataset),unique=TRUE)
 #      row.names(Dataset) = Dataset[,1]
 #      Dataset = Dataset[,2:ncol(Dataset)]
       return(Dataset)
@@ -213,18 +225,26 @@ shinyServer(function(input, output,session) {
  #   }
  # })
   
-  output$graph3 <- renderPlot({
+  output$graph3 <- renderVisNetwork({
     if (is.null(input$file)) { return(NULL) }
     else{
-  distill.cog(dtm(), input$nodes, input$connection, "Doc-Doc",input$cex,input$cex2)
+      distill.cog.tcm(t(dtm()),mattype = "DTM", k=input$nodes, s=input$connection, title="Doc-Doc",cex=input$cex,cex2 = input$cex2)#,input$cex2)
     }
   })
   
-  output$graph4 <- renderPlot({ if (is.null(input$file)) { return(NULL) }
+  
+  
+  
+  output$graph4 <- renderVisNetwork({ if (is.null(input$file)) { return(NULL) }
     else{
-  distill.cog(t(dtm()),input$nodes, input$connection, "Term-Term",input$cex,input$cex2)
+  #distill.cog(t(dtm()),input$nodes, input$connection, "Term-Term",input$cex,input$cex2)
+      distill.cog.tcm(dtm(),mattype = "DTM", k=input$nodes, s=input$connection, title="Term-Term",cex=input$cex,cex2 = input$cex2)
     }
   })
+  
+  
+  
+  
   
   dtm_to_download <- reactive({
     if (is.null(input$file)) { return(NULL)}
@@ -369,10 +389,11 @@ shinyServer(function(input, output,session) {
                                         value = floor(max_slider/2),
                                         step = 1)}})
   
-  output$graph5 <- renderPlot({ if (is.null(input$file)) { return(NULL) }
+  output$graph5 <- renderVisNetwork({ if (is.null(input$file)) { return(NULL) }
     else{
       require(igraph)
       co2015 <- bi_graph_df()
+      group=rownames(co2015)
       # remove columns with sum less than 5
       co2015 = co2015[,colSums(co2015)>input$cutoff]
       co2015 = co2015[sum(co2015)>0,]
@@ -383,14 +404,23 @@ shinyServer(function(input, output,session) {
       
       V(graph1)$color[1:rownums] = rgb(1,0.25,0.75,1)   # Color scheme for fist mode of vertices
       V(graph1)$color[(rownums+1):(rownums+colnums)] = rgb(0,1,0.5,.5) # Color Scheme for second mode of vertices
+      
+      
+      V(graph1)$shape[1:rownums] = 10
+      V(graph1)$shape[(rownums+1):(rownums+colnums)] = 50
+      
+      # V(graph1)$shape[1:rownums] = "triangle"
+      # V(graph1)$color[(rownums+1):(rownums+colnums)] = "circle"
+      
       V(graph1)$label = V(graph1)$name     # made some crap changes
-      V(graph1)$label.color = rgb(0.2,0.2,.9,1)
+      #V(graph1)$label.color = rgb(0.2,0.2,.9,1)
       V(graph1)$label.cex = .8
-      V(graph1)$size = 10
+      #V(graph1)$size = 50
       V(graph1)$frame.color = NA
       E(graph1)$color = rgb(.25, .25, 0.75, 1)
       
-      plot(graph1, layout=layout.fruchterman.reingold)
+      #plot(graph1, layout=layout.fruchterman.reingold)
+      visIgraph(graph1, layout = "layout.fruchterman.reingold", idToLabel = FALSE,physics = FALSE)  
       
       
     }

@@ -5,6 +5,7 @@
 library("shiny")
 library("igraph")
 library("tm")
+library('visNetwork')
 #library("foreign")
 
 shinyUI(fluidPage(
@@ -27,7 +28,7 @@ shinyUI(fluidPage(
     uiOutput("interactive_slider"),
     #sliderInput("cutoff", " Minimum number of times brand is selected", min = 1,max = 50,value = 5,step = 1),
     sliderInput("cex", "Data point labels font size", min = 0.1,  max = 3, value = 1,round = FALSE),
-    sliderInput("cex2", "Vertex Size", min = 0.1,  max = 20, value = 5,round = FALSE),
+    #sliderInput("cex2", "Vertex Size", min = 0.1,  max = 20, value = 5,round = FALSE),
     
     
     numericInput("nodes", "Number of Central Nodes in COG graph", 4),
@@ -46,12 +47,12 @@ shinyUI(fluidPage(
                 # tabPanel("Doc-Doc Network",plotOutput("graph1", height = 800, width = 840)),
                 # tabPanel("Term-Term Network",plotOutput("graph2", height = 800, width = 840)),
                 
-                tabPanel("Bipartite graph",plotOutput("graph5", height = 800, width = 840)),
-                tabPanel("Doc-Doc COG",plotOutput("graph3", height = 800, width = 840),
+                tabPanel("Bipartite graph",visNetworkOutput("graph5", height = 800, width = 840)),
+                tabPanel("Doc-Doc COG",visNetworkOutput("graph3", height = 800, width = 840),
                          h4("Download Doc-Doc Matrix"),
                          downloadButton('downloadData2', 'Download Doc-Doc Matrix'),h4("Sample Doc-Doc Matrix"),tableOutput('doc_doc')),
                 tabPanel("Term-Term COG",
-                         plotOutput("graph4", height = 800, width = 840),
+                         visNetworkOutput("graph4", height = 800, width = 840),
                          h4("Download Term-Term Matrix (Top 200)"),
                          downloadButton('downloadData3', 'Download Term-Term Matrix'),h4("Sample Term-Term Matrix"),tableOutput('term_term')
                          ),
