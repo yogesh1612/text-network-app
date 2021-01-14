@@ -402,12 +402,12 @@ shinyServer(function(input, output,session) {
       graph1 = graph.incidence(co2015, mode=c("all") ) # create two mode network object
       V(graph1)   # Print Vertices. Based on vertices order change the color scheme in next line of code
       
-      V(graph1)$color[1:rownums] = rgb(1,0.25,0.75,1)   # Color scheme for fist mode of vertices
-      V(graph1)$color[(rownums+1):(rownums+colnums)] = rgb(0,1,0.5,.5) # Color Scheme for second mode of vertices
+      V(graph1)$color[1:rownums] = "pink"   # Color scheme for fist mode of vertices
+      V(graph1)$color[(rownums+1):(rownums+colnums)] = "green" # Color Scheme for second mode of vertices
       
       
-      V(graph1)$shape[1:rownums] = 10
-      V(graph1)$shape[(rownums+1):(rownums+colnums)] = 50
+      # V(graph1)$shape[1:rownums] = 10
+      # V(graph1)$shape[(rownums+1):(rownums+colnums)] = 50
       
       # V(graph1)$shape[1:rownums] = "triangle"
       # V(graph1)$color[(rownums+1):(rownums+colnums)] = "circle"
@@ -417,7 +417,7 @@ shinyServer(function(input, output,session) {
       V(graph1)$label.cex = .8
       #V(graph1)$size = 50
       V(graph1)$frame.color = NA
-      E(graph1)$color = rgb(.25, .25, 0.75, 1)
+      E(graph1)$color = "green"
       
       #plot(graph1, layout=layout.fruchterman.reingold)
       visIgraph(graph1, layout = "layout.fruchterman.reingold", idToLabel = FALSE,physics = FALSE)  
