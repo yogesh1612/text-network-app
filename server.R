@@ -7,6 +7,16 @@ shinyServer(function(input, output,session) {
   library("igraph")
   library("tm")  
   #---------------------------------------------
+  
+  # sample dataset
+  
+  output$dwnld <- downloadHandler(
+    filename = function() { "B2C_brands_pgp21.csv" },
+    content = function(file) {
+      write.csv(read.csv("data/B2C brands pgp21.csv"), file,row.names = FALSE)
+    }
+  )
+  
   text.clean1 = function(x)                          # text data
   { 
     # x = gsub("[^[:alnum:]['-][\\s]", "-", x)        # replace intra-word space with dash
@@ -295,7 +305,7 @@ shinyServer(function(input, output,session) {
   })
   
   output$downloadData2 <- downloadHandler(
-    filename = function() { "doc_doc_mat.csv" },
+    filename = function() { paste(str_split(input$file$name,"\\.")[[1]][1],"_doc_doc_mat.csv",collapse = "") },
     content = function(file) {
       print(2)
       write.csv(doc_doc_mat(), file, row.names=T)
@@ -306,7 +316,7 @@ shinyServer(function(input, output,session) {
   
   
   output$downloadData3 <- downloadHandler(
-    filename = function() { "term_term_mat.csv" },
+    filename = function() { paste(str_split(input$file$name,"\\.")[[1]][1],"_term_term_mat.csv",collapse = "")},
     content = function(file) {
       print(2)
       write.csv(term_term_mat(), file, row.names=T)
@@ -348,7 +358,7 @@ shinyServer(function(input, output,session) {
   
   
   output$downloadData1 <- downloadHandler(
-    filename = function() { "dtm_to_network_an.csv" },
+    filename = function() { paste(str_split(input$file$name,"\\.")[[1]][1],"_dtm_to_network.csv",collapse = "") },
     content = function(file) {
       
       
@@ -424,6 +434,13 @@ shinyServer(function(input, output,session) {
       
       
     }
+    
+    
+    
+    
+    
+    
+    
   })
     
   })
