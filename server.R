@@ -362,7 +362,7 @@ shinyServer(function(input, output,session) {
     content = function(file) {
       
       
-        new_dtm <- dtm_to_download()[1:200,1:200]
+        new_dtm <- dtm_to_download()[1:1000,1:500]
         print(2)
         write.csv(new_dtm, file, row.names=T)
       

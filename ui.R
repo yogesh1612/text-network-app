@@ -12,7 +12,8 @@ library('stringr')
 shinyUI(fluidPage(
   # Header:
   #headerPanel("Text Network App"),
-  titlePanel(title=div(img(src="logo.png",align='right'),"Text Network App")),
+  title = "Text Network",
+  titlePanel(title=div(img(src="logo.png",align='right'),"Text Network")),
   # Input in sidepanel:
   sidebarPanel(
     
@@ -67,9 +68,9 @@ shinyUI(fluidPage(
                            ", align = "Justify"),
                          img(src = "dataset.png"),
                          hr(),
-                         h4(p("Download Sample input file")),
+                         #h4(p("Download Sample input file")),
                          # 
-                         downloadButton('dwnld', 'Download'),br(),br(),
+                         #downloadButton('dwnld', 'Download'),br(),br(),
                         # p("Please note that download will not work with RStudio interface. Download will work only in web-browsers. So open this app in a web-browser and then download the example file. For opening this app in web-browser click on \"Open in Browser\" as shown below -"),
                         # img(src = "example1.png"),
                          #, height = 280, width = 400

@@ -1,0 +1,12 @@
+name: text-network-app
+title: text-network-app
+username:
+account: sudhir-voleti
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3506424
+bundleId: 4129455
+url: https://sudhir-voleti.shinyapps.io/text-network-app/
+when: 1611318212.53194
+asMultiple: FALSE
+asStatic: FALSE
